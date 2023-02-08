@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import ColorCard from "../components/ColorCard";
 import timeout from "../utils/util";
+import axios from "axios";
 import "../App.css";
+const BASE_URL = "http://localhost:5001";
 
 const MainPage = () => {
   const [isOn, setIsOn] = useState(false);
+  const [highScore, setHighScore] = useState(0);
+  const [winnerName, setWinnerName] = useState("");
+  const [playerScore, setPlayerScore] = useState(0);
   const colorList = ["green", "red", "yellow", "blue"];
+  // const user_name = localStorage.getItem("user_name");
+  const user_email = localStorage.getItem("email");
 
   const initPlay = {
     isDisplay: false,
@@ -19,7 +26,18 @@ const MainPage = () => {
   const [flashColor, setFlashColor] = useState("");
 
   const startHandle = () => {
+    fetchData();
     setIsOn(true);
+  };
+
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${BASE_URL}/api/scores?email=${user_email}`
+    );
+    console.log(`response.data`, response);
+    const { name, score } = response.data;
+    setHighScore(score);
+    setWinnerName(name);
   };
 
   useEffect(() => {
@@ -29,6 +47,10 @@ const MainPage = () => {
       setPlay(initPlay);
     }
   }, [isOn]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (isOn && play.isDisplay) {
@@ -46,12 +68,12 @@ const MainPage = () => {
   }, [isOn, play.isDisplay, play.colors.length]);
 
   const displayColors = async () => {
-    await timeout(1000);
+    await timeout(600);
     for (let i = 0; i < play.colors.length; i++) {
       setFlashColor(play.colors[i]);
-      await timeout(1000);
+      await timeout(600);
       setFlashColor("");
-      await timeout(1000);
+      await timeout(600);
 
       if (i === play.colors.length - 1) {
         const copyColors = [...play.colors];
@@ -71,37 +93,50 @@ const MainPage = () => {
       const copyUserColors = [...play.userColors];
       const lastColor = copyUserColors.pop();
       setFlashColor(color);
-      await timeout(1000);
+      await timeout(600);
       setFlashColor("");
 
       if (color === lastColor) {
         if (copyUserColors.length) {
           setPlay({ ...play, userColors: copyUserColors });
         } else {
-          await timeout(1000);
+          await timeout(600);
           setPlay({
             ...play,
             isDisplay: true,
             userPlay: false,
-            score: play.colors.length,
+            score: setPlayerScore(play.colors.length),
             userColors: [],
           });
         }
       } else {
-        await timeout(1000);
+        // await timeout(600);
         setPlay({ ...initPlay, score: play.colors.length });
       }
-      await timeout(1000);
+      await timeout(600);
       setFlashColor("");
-
     }
   };
 
   const closeHandle = () => {
+    if (playerScore >= highScore) {
+      axios.put(`${BASE_URL}/api/scores`, {
+        email: user_email,
+        score: playerScore,
+      });
+    }
     setIsOn(false);
   };
   return (
     <>
+      {isOn ? (
+        <h3>
+          The highscore is: {highScore} by {winnerName}
+        </h3>
+      ) : (
+        <h3>Hi {winnerName}, Welcome to Simon Says</h3>
+      )}
+
       <div className="cardWrapper">
         {colorList &&
           colorList.map((v, i) => (
@@ -114,9 +149,10 @@ const MainPage = () => {
             ></ColorCard>
           ))}
       </div>
+
       {isOn && !play.isDisplay && !play.userPlay && play.score && (
         <div className="lost">
-          <div>Final Score: {play.score}</div>
+          <div>Final Score: {playerScore}</div>
           <button onClick={closeHandle}>Close</button>
         </div>
       )}
@@ -124,10 +160,9 @@ const MainPage = () => {
         <button onClick={startHandle} className="startButton">
           Start
         </button>
-
       )}
       {isOn && (play.isDisplay || play.userPlay) && (
-        <div className="score">{play.score}</div>
+        <div className="score">{playerScore}</div>
       )}
     </>
   );

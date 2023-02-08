@@ -3,6 +3,8 @@ const { scoreHandler } = require("../Api/scoreHandler");
 const scoreRouter = new Router();
 
 scoreRouter.get("/", scoreHandler.getHighestScore);
-scoreRouter.post("/", scoreHandler.addNewHighScore);
+scoreRouter.put("/", scoreHandler.addNewHighScore);
+scoreRouter.post("/login", scoreHandler.userLogin);
+
 
 module.exports = { scoreRouter };
