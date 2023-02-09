@@ -5,6 +5,7 @@ import axios from "axios";
 import "../App.css";
 const BASE_URL = "http://localhost:5001";
 
+
 const MainPage = () => {
   const [isOn, setIsOn] = useState(false);
   const [highScore, setHighScore] = useState(0);
@@ -141,6 +142,7 @@ const MainPage = () => {
         {colorList &&
           colorList.map((v, i) => (
             <ColorCard
+            className={v}
               onCLick={() => {
                 cardClickHandle(v);
               }}
@@ -162,7 +164,9 @@ const MainPage = () => {
         </button>
       )}
       {isOn && (play.isDisplay || play.userPlay) && (
-        <div className="score">{playerScore}</div>
+        <div className="score">
+          <h2>{playerScore}</h2>
+        </div>
       )}
     </>
   );
