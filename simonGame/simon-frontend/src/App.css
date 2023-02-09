@@ -80,7 +80,7 @@
 }
 .red.flash {
   background-color: rgb(255, 125, 125);
-  border-radius: 0px 200px 0px 0px;
+  border-radius: 0px 300px 0px 0px;
 }
 
 .blue {
@@ -88,7 +88,7 @@
 }
 .blue.flash {
   background-color: rgb(125, 125, 255);
-  border-radius: 0px 0px 200px 0px;
+  border-radius: 0px 0px 300px 0px;
 }
 
 .green {
@@ -96,14 +96,14 @@
 }
 .green.flash {
   background-color: rgb(125, 255, 125);
-  border-radius: 200px 0px 0px 0px;
+  border-radius: 300px 0px 0px 0px;
 }
 .yellow {
   background-color: yellow;
 }
 .yellow.flash {
   background-color: rgb(245, 245, 151);
-  border-radius: 0px 0px 0px 200px;
+  border-radius: 0px 0px 0px 300px;
 }
 /* .startButton {
 
@@ -111,14 +111,6 @@
   width: 100px;
 } */
 .startButton {
-  /* border-radius: 10px;
-  position: absolute;
-  width: 100px;
-  height: 40px;
-  top: 56%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
-
   border-style: solid;
   border-width: 7px;
   border-color: rgb(231, 228, 228);
@@ -132,18 +124,20 @@
   line-height: 100px;
   font-size: 50px;
 }
-.score {
-  /* border-style: solid;
-  border-width: 7px;
-  border-color: rgb(231, 228, 228);
+.submit{
+  border-radius: 10px;
   position: absolute;
   width: 200px;
-  height: 200px;
-  background-color: black;
-  top: 45%;
-  border-radius: 50%;
-  line-height: 100px;
-  font-size: 50px; */
+  height: 40px;
+  right: 43%;
+}
+.input{
+  width: 200px;
+  height: 30px;
+  margin-bottom: 5px;
+  font-size: large;
+}
+.score {
   border-style: solid;
   border-width: 7px;
   border-color: rgb(231, 228, 228);
@@ -161,7 +155,12 @@
 .score h2{
   margin-top: 25%;
 }
+.close{
+  width: 200px;
+  height: 40px;
+}
 .lost {
+  top: 30%;
   position: absolute;
   width: 400px;
   height: 400px;

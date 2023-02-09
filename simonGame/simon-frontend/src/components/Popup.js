@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 const BASE_URL = "http://localhost:5001";
 
@@ -12,7 +13,6 @@ const Popup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(values.name);
 
     axios
       .post(`${BASE_URL}/api/scores/login`, {
@@ -20,14 +20,12 @@ const Popup = () => {
         email: values.email,
       })
       .then((data) => {
-        // console.log("data from popup page post", data);
         if (data.status === 200) {
           localStorage.setItem("email", values.email);
           navigate("/Game");
         }
       })
       .catch((error) => {
-        //   return ({error: error})
         console.log("error: ", error);
       });
   };
@@ -49,6 +47,7 @@ const Popup = () => {
           <div>
             <h3>Please fill you details here:</h3>
             <input
+              className="input"
               placeholder="Your Name"
               type="text"
               name="name"
@@ -57,13 +56,14 @@ const Popup = () => {
           </div>
           <div>
             <input
+              className="input"
               placeholder="Your Email"
               type="text"
               name="email"
               onChange={handleInputOnChange}
             />
           </div>
-          <button type="submit" onClick={handleSubmit}>
+          <button className="submit" type="submit" onClick={handleSubmit}>
             Submit
           </button>
         </form>

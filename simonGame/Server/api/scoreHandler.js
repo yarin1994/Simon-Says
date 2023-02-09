@@ -9,8 +9,6 @@ exports.scoreHandler = {
       .limit(1)
       .then((docs) => {
         if (docs.length >= 1) {
-          console.log(`docs`, docs[0].name);
-
           res.status(200).json({
             message: `${docs[0].name}'s highest score`,
             name: docs[0].name,
@@ -24,7 +22,6 @@ exports.scoreHandler = {
         }
       })
       .catch((err) =>
-        // console.log(`Error getting the all users from DB: ${err}`)
         res.status(500).json({
           error: err,
           reason: "scoreHandler",
@@ -46,7 +43,6 @@ exports.scoreHandler = {
         })
       )
       .catch((err) =>
-        // console.log(`Error getting the all users from DB: ${err}`)
         res.status(500).json({
           error: err,
           reason: "addNewHighScore",
@@ -74,7 +70,6 @@ exports.scoreHandler = {
           });
           User.save()
             .then((result) => {
-              // console.log(`result`, result);
               res.status(200).json({
                 result: result,
                 message: "New user added",
@@ -96,7 +91,6 @@ exports.scoreHandler = {
         }
       })
       .catch((err) => {
-        // console.log(err);
         res.status(500).json({
           error: err,
         });

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import ColorCard from "../components/ColorCard";
 import timeout from "../utils/util";
+import Confetti from '../components/Confetti';
 import axios from "axios";
 import "../App.css";
 const BASE_URL = "http://localhost:5001";
-
 
 const MainPage = () => {
   const [isOn, setIsOn] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [winnerName, setWinnerName] = useState("");
   const [playerScore, setPlayerScore] = useState(0);
+  const [confetti, setConfetti] = useState(false);
   const colorList = ["green", "red", "yellow", "blue"];
-  // const user_name = localStorage.getItem("user_name");
   const user_email = localStorage.getItem("email");
 
   const initPlay = {
@@ -28,6 +28,7 @@ const MainPage = () => {
 
   const startHandle = () => {
     fetchData();
+    setConfetti(false)
     setIsOn(true);
   };
 
@@ -35,7 +36,6 @@ const MainPage = () => {
     const response = await axios.get(
       `${BASE_URL}/api/scores?email=${user_email}`
     );
-    console.log(`response.data`, response);
     const { name, score } = response.data;
     setHighScore(score);
     setWinnerName(name);
@@ -111,7 +111,13 @@ const MainPage = () => {
           });
         }
       } else {
-        // await timeout(600);
+        if (playerScore > highScore) {
+          setConfetti(true)
+          axios.put(`${BASE_URL}/api/scores`, {
+            email: user_email,
+            score: playerScore,
+          });
+        }
         setPlay({ ...initPlay, score: play.colors.length });
       }
       await timeout(600);
@@ -120,22 +126,18 @@ const MainPage = () => {
   };
 
   const closeHandle = () => {
-    if (playerScore >= highScore) {
-      axios.put(`${BASE_URL}/api/scores`, {
-        email: user_email,
-        score: playerScore,
-      });
-    }
+    
     setIsOn(false);
+    setPlayerScore(0)
   };
   return (
     <>
       {isOn ? (
         <h3>
-          The highscore is: {highScore} by {winnerName}
+          {winnerName} your Highescore is {highScore}
         </h3>
       ) : (
-        <h3>Hi {winnerName}, Welcome to Simon Says</h3>
+        <h3>Hi {winnerName}, Welcome to Simon Says Game</h3>
       )}
 
       <div className="cardWrapper">
@@ -150,12 +152,19 @@ const MainPage = () => {
               color={v}
             ></ColorCard>
           ))}
+          { confetti && (<Confetti />)}
       </div>
 
       {isOn && !play.isDisplay && !play.userPlay && play.score && (
         <div className="lost">
-          <div>Final Score: {playerScore}</div>
-          <button onClick={closeHandle}>Close</button>
+          {playerScore > highScore ? (
+            <div>New HighScore: {playerScore}</div>
+
+          ) : (
+            <div>Your Score is {playerScore}</div>
+          )}
+          
+          <button className="close" onClick={closeHandle}>Close</button>
         </div>
       )}
       {!isOn && !play.score && (
