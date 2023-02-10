@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+
+// DataBase connection
 class Database {
     constructor(uri) {
         this.uri = uri;
@@ -14,12 +16,10 @@ class Database {
             })
             .then(() => {
                 console.log("[+] Successfully connected to database!");
-                // Utils.LogToFile("[+] Successfully connected to database!")
                 return mongoose.connection;
             })
             .catch((err) => {
                 console.log(`[-] Error connecting to database ${err}`);
-                // Utils.LogToFile(`[-] Error connecting to database ${err}`);
                 process.exit(1);
             });
     }

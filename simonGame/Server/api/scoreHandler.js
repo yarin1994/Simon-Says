@@ -1,7 +1,8 @@
 const { default: mongoose } = require("mongoose");
 const Score = require("../db/scoreSchema");
 
-// Get User details
+// Returns the highest score of the signed in user
+// Method: GET
 exports.scoreHandler = {
   async getHighestScore(req, res) {
     Score.find({ email: req.query.email })
@@ -13,6 +14,10 @@ exports.scoreHandler = {
             message: `${docs[0].name}'s highest score`,
             name: docs[0].name,
             score: docs[0].score,
+            request: {
+              Method: "GET",
+              url: "http://localhost:5001/api/scores"+req.query.email,
+            },
           });
         } else {
           res.status(500).json({
@@ -29,7 +34,8 @@ exports.scoreHandler = {
       );
   },
 
-  // Update HighScore
+  // Updates the score field to the new highscore
+  // Method: PUT
   async addNewHighScore(req, res) {
     Score.findOneAndUpdate(
       { email: req.body.email },
@@ -40,6 +46,10 @@ exports.scoreHandler = {
         res.status(200).json({
           message: `New HighScore made by ${docs.name}`,
           score: docs.score,
+          request: {
+            Method: "PUT",
+            url: "http://localhost:5001/api/scores",
+          },
         })
       )
       .catch((err) =>
@@ -50,7 +60,8 @@ exports.scoreHandler = {
       );
   },
 
-  // User Login
+  // Returns user data on login, or Signing up in case of new user
+  // Method: POST
   async userLogin(req, res) {
     const { name, email } = req.body;
 

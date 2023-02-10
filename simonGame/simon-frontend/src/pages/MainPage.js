@@ -69,12 +69,12 @@ const MainPage = () => {
   }, [isOn, play.isDisplay, play.colors.length]);
 
   const displayColors = async () => {
-    await timeout(600);
+    await timeout(400);
     for (let i = 0; i < play.colors.length; i++) {
       setFlashColor(play.colors[i]);
-      await timeout(600);
+      await timeout(400);
       setFlashColor("");
-      await timeout(600);
+      await timeout(400);
 
       if (i === play.colors.length - 1) {
         const copyColors = [...play.colors];
@@ -94,14 +94,14 @@ const MainPage = () => {
       const copyUserColors = [...play.userColors];
       const lastColor = copyUserColors.pop();
       setFlashColor(color);
-      await timeout(600);
+      await timeout(400);
       setFlashColor("");
 
       if (color === lastColor) {
         if (copyUserColors.length) {
           setPlay({ ...play, userColors: copyUserColors });
         } else {
-          await timeout(600);
+          await timeout(400);
           setPlay({
             ...play,
             isDisplay: true,
@@ -120,7 +120,7 @@ const MainPage = () => {
         }
         setPlay({ ...initPlay, score: play.colors.length });
       }
-      await timeout(600);
+      await timeout(400);
       setFlashColor("");
     }
   };
