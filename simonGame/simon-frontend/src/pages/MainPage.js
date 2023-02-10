@@ -4,7 +4,8 @@ import timeout from "../utils/util";
 import Confetti from '../components/Confetti';
 import axios from "axios";
 import "../App.css";
-const BASE_URL = "http://localhost:5001";
+const BASE_URL = "https://Simon-says.onrender.com";
+
 
 const MainPage = () => {
   const [isOn, setIsOn] = useState(false);

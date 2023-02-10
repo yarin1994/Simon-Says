@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-const BASE_URL = "http://localhost:5001";
+const BASE_URL = "https://Simon-says.onrender.com";
 
 const Popup = () => {
   const navigate = useNavigate();
