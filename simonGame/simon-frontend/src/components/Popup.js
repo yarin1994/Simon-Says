@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const BASE_URL = "https://Simon-says.onrender.com";
+const BASE_URL = "https://simon-says.onrender.com";
 
 const Popup = () => {
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import timeout from "../utils/util";
 import Confetti from '../components/Confetti';
 import axios from "axios";
 import "../App.css";
-const BASE_URL = "https://Simon-says.onrender.com";
+const BASE_URL = "https://simon-says.onrender.com";
 
 
 const MainPage = () => {
